@@ -1,5 +1,25 @@
 # pi_webgis
 
+## O que é um WebGIS?
+
+Um WebGIS (Sistema de Informação Geográfica na Web) é uma aplicação baseada na web que permite a visualização, análise e manipulação de dados geoespaciais. Ele combina informações geográficas e recursos interativos da web para fornecer uma plataforma poderosa para a tomada de decisões baseadas em localização. Os WebGIS são amplamente utilizados em diversas áreas, como planejamento urbano, gestão de recursos naturais, agricultura, geologia, meio ambiente e muito mais.
+
+## Por que Utilizar um WebGIS?
+
+A utilização de um WebGIS oferece diversas vantagens, incluindo:
+
+- **Acesso Universal**: Como é baseado na web, um WebGIS permite que usuários de diferentes locais acessem e colaborem facilmente em análises geoespaciais.
+
+- **Visualização de Dados**: Oferece a capacidade de visualizar dados geográficos complexos em mapas interativos, tornando mais fácil entender padrões e tendências.
+
+- **Tomada de Decisões Baseadas em Localização**: Permite tomar decisões informadas considerando a localização geográfica, o que é crucial em muitos campos, como logística, marketing e planejamento urbano.
+
+- **Integração de Dados**: Facilita a integração de dados geoespaciais de várias fontes, possibilitando análises mais abrangentes.
+
+- **Compartilhamento de Informações**: Permite compartilhar informações geográficas de maneira eficiente com partes interessadas e o público em geral.
+
+Este projeto, pi_webgis, é uma implementação de um WebGIS usando a estrutura Django e a biblioteca Leaflet para criar mapas interativos na web. Siga as instruções abaixo para configurar e personalizar seu próprio WebGIS com base neste projeto.
+
 ## Pré-requisitos
 
 Antes de começar, certifique-se de ter o Python instalado em seu sistema. Você pode fazer isso seguindo os passos abaixo:
