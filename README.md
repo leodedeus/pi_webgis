@@ -117,3 +117,79 @@ Agora você deve ser capaz de acessar a página com o mapa Leaflet em http://127
 ---
 
 Este README fornece um guia básico para configurar um projeto Django com um aplicativo que usa Leaflet para criar um mapa da web. Lembre-se de consultar a documentação oficial do Django e do Leaflet para obter informações mais detalhadas e personalizar seu projeto de acordo com suas necessidades específicas.
+
+Claro, aqui está a seção que você deseja acrescentar no README, reescrita de forma mais detalhada e organizada:
+
+## Instalação do PostgreSQL
+
+Siga estas etapas para instalar o PostgreSQL:
+
+1. **Baixe o Instalador do PostgreSQL**:
+   - Acesse o site oficial do PostgreSQL (https://www.postgresql.org/download/) e faça o download do instalador apropriado para o seu sistema operacional.
+
+2. **Prossiga com o Processo de Instalação**:
+   - Execute o instalador baixado e siga as instruções fornecidas durante o processo de instalação.
+
+3. **Defina uma Senha para o Usuário "postgres"**:
+   - Durante a instalação, você será solicitado a definir uma senha para o usuário "postgres" do banco de dados. Certifique-se de lembrar dessa senha, pois você a usará posteriormente.
+
+4. **Instale a Extensão Espacial PostGIS**:
+   - No Windows, você pode usar o Stack Builder, que é instalado junto com o PostgreSQL, para instalar a extensão espacial PostGIS. Siga as instruções para adicioná-la ao seu PostgreSQL.
+
+## Criação do Banco de Dados
+
+Siga estas etapas para criar o banco de dados:
+
+1. **Crie um Banco de Dados**:
+   - Use uma ferramenta de administração de banco de dados, como o pgAdmin, para criar um banco de dados que será usado para armazenar as camadas da sua aplicação.
+
+2. **Crie um Esquema**:
+   - Dentro do banco de dados, crie um esquema para organizar os dados.
+
+3. **Habilite a Extensão PostGIS**:
+   - Dentro do banco de dados criado, habilite a extensão PostGIS para permitir o armazenamento de dados geoespaciais.
+
+## Acrescentar Camadas no Banco de Dados
+
+Siga estas etapas para adicionar camadas ao banco de dados usando o software QGIS:
+
+1. **Crie uma Conexão no QGIS**:
+   - Configure uma conexão no QGIS para se conectar ao banco de dados que você criou anteriormente.
+
+2. **Abra a Camada de Interesse**:
+   - Abra a camada geoespacial de interesse no QGIS.
+
+3. **Importe a Camada para o Banco de Dados**:
+   - Use as funcionalidades do QGIS para importar a camada no banco de dados, garantindo que ela seja associada ao esquema e banco de dados corretos.
+
+## Instalação do GeoServer (Servidor de Mapas)
+
+Siga estas etapas para instalar o GeoServer:
+
+1. **Baixe o Instalador do GeoServer**:
+   - Acesse o site oficial do GeoServer (https://geoserver.org/download/) e faça o download do instalador apropriado para o seu sistema operacional.
+
+2. **Prossiga com o Processo de Instalação**:
+   - Execute o instalador baixado e siga as instruções fornecidas durante o processo de instalação.
+
+## Publicação da Camada de Interesse
+
+Siga estas etapas para publicar a camada de interesse usando o GeoServer:
+
+1. **Crie um "Data Store"**:
+   - No GeoServer, crie um "Data Store" para estabelecer a conexão com o banco de dados que contém suas camadas geoespaciais.
+
+2. **Crie um "Layer"**:
+   - Crie um "Layer" no GeoServer para configurar as propriedades da camada de dados que você deseja publicar.
+
+3. **Crie uma "Workspace"**:
+   - É recomendável criar uma "Workspace" para definir o endereço que será usado para acessar as camadas em sua aplicação.
+
+4. **Publique a Camada como um Serviço WMS**:
+   - Finalmente, publique a camada como um serviço WMS no GeoServer.
+
+## Integração da Camada de Dados na Aplicação
+
+Para integrar a camada de dados em sua aplicação, você pode usar uma função do Leaflet para incluir a camada. Certifique-se de consultar a documentação do Leaflet para obter detalhes sobre como realizar essa integração.
+
+Com essas etapas, você estará pronto para integrar e visualizar camadas de dados geoespaciais em sua aplicação baseada em WebGIS. Lembre-se de consultar a documentação específica de cada ferramenta para obter informações mais detalhadas.
