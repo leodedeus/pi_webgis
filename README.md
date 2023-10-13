@@ -118,8 +118,6 @@ Agora você deve ser capaz de acessar a página com o mapa Leaflet em http://127
 
 Este README fornece um guia básico para configurar um projeto Django com um aplicativo que usa Leaflet para criar um mapa da web. Lembre-se de consultar a documentação oficial do Django e do Leaflet para obter informações mais detalhadas e personalizar seu projeto de acordo com suas necessidades específicas.
 
-Claro, aqui está a seção que você deseja acrescentar no README, reescrita de forma mais detalhada e organizada:
-
 ## Instalação do PostgreSQL
 
 Siga estas etapas para instalar o PostgreSQL:
