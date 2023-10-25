@@ -105,8 +105,13 @@ Siga estas etapas para configurar o aplicativo e criar um mapa Leaflet:
          # Adicione outras rotas aqui, se necessário.
      ]
      ```
-
-5. **Execute o Projeto Novamente**:
+5. **Configurar o novo aplicativo no arquivo setting.py**
+   - No arquivo setting.py que fica dentro da pasta do projeto Django, é necessário acrescentar o aplicativo na lista de aplicativos instalados:
+     '''
+     'mapleaflet.apps.MapleafletConfig'
+     '''
+     
+6. **Execute o Projeto Novamente**:
    - Reinicie o servidor de desenvolvimento Django com o comando:
      ```
      python manage.py runserver
