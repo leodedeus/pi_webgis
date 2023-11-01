@@ -196,5 +196,3 @@ Siga estas etapas para publicar a camada de interesse usando o GeoServer:
 Para integrar a camada de dados em sua aplicação, você pode usar uma função do Leaflet para incluir a camada. Certifique-se de consultar a documentação do Leaflet para obter detalhes sobre como realizar essa integração.
 
 Com essas etapas, você estará pronto para integrar e visualizar camadas de dados geoespaciais em sua aplicação baseada em WebGIS. Lembre-se de consultar a documentação específica de cada ferramenta para obter informações mais detalhadas.
-
-**test commit
