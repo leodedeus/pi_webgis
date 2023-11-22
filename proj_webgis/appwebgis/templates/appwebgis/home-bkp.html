@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+</head>
+<body>
+    <div id="map" style="width: 1500px; height: 800px;"></div>
+    <script>
+        var map = L.map('map').setView([-15.8088136,-47.95301], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        var basetopo = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/WMTS/tile/1.0.0/USGSTopo/default/default028mm/{z}/{y}/{x}.png', {});
+        var baserelief = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {});
+        var googlesat = L.tileLayer ('https://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}',{});
+
+        var lotes = L.tileLayer.wms('http://localhost:8080/geoserver/pi_webgis/wms',{
+            layers: 'pi_webgis:feature_polygon_lote_existente',
+            format: 'image/png',
+            transparent: true,
+            //opacity: 0.7
+        })//.addTo(map)
+
+        var escolas = L.tileLayer.wms('http://localhost:8080/geoserver/pi_webgis/wms',{
+            layers: 'pi_webgis:feature_point_escola_publica',
+            format: 'image/png',
+            transparent: true,
+            //opacity: 1.0
+        })//.addTo(map)
+
+        var basemaps = {
+            'Satélite': googlesat,
+            'Topográfico': basetopo,
+            'Mais um': baserelief
+        }
+
+        var camadas = {
+            'Escolas': escolas,
+            'Lotes': lotes
+        }
+
+        L.control.layers(basemaps,camadas).addTo(map);
+
+    </script>
+    
+</body>
+</html>

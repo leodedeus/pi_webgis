@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,28 +7,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     
+    
 </head>
 <body>
     <div id="map" style="width: 1500px; height: 800px;"></div>
-    <script>
-        var map = L.map('map').setView([-15.833162, -48.056665], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        var lotes = L.tileLayer.wms('http://localhost:8080/geoserver/pi_camadas/wms',{
-            layers: 'pi_camadas:lote_existente',
-            format: 'image/png',
-            transparency: true,
-            opacity: 0.7
-        }).addTo(map)
-
-        var escolas = L.tileLayer.wms('http://localhost:8080/geoserver/pi_camadas/wms',{
-            layers: 'pi_camadas:escolas_publicas',
-            format: 'image/png',
-            transparency: true,
-            opacity: 0.6
-        }).addTo(map)
-
-    </script>
-    
+    <script src="{% static 'js/mapabase.js' %}"></script>
 </body>
 </html>
