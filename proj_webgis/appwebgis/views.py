@@ -22,10 +22,11 @@ def adicionar_escola(request):
             longitude = data.get('longitude')
 
             # Converta as coordenadas para o formato geom do PostGIS e SRID 31983
-            coordenadas = f'SRID=31983;POINT({longitude} {latitude})'
+            coordenadas = f'SRID=4326;POINT({longitude} {latitude})'
 
             # Crie a consulta SQL para inserção
-            sql = f"INSERT INTO camadas.feature_point_escola_publica(nome_escola, geom) VALUES (%s, ST_GeomFromText(%s));"
+            sql = f"INSERT INTO camadas.feature_point_escola_publica(nome_escola, geom) VALUES (%s, ST_Transform(ST_GeomFromText(%s, 4326), 31983));"
+            #sql = f"INSERT INTO camadas.feature_point_escola_publica(nome_escola, geom) VALUES (%s, ST_GeomFromText(%s));"
             #sql = f"INSERT INTO camadas.feature_point_escola_publica(nome_escola, geom) VALUES (%s, ST_Transform(ST_MakePoint(%s,%s), 31983));"
             #sql = "INSERT INTO camadas.feature_point_escola_publica(nome_escola, geom) VALUES (%s, ST_Transform(ST_MakePoint(%s, %s), 31983));"
 

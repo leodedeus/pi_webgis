@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Exibe um alerta com a resposta do servidor
                     console.log('Data recebida:', data);
                     alert(data.message);
+
+                    // Recarrega a página para exibir a nova escola
+                    location.reload();
                 })
                 .catch(error => {
                     console.error('Erro ao adicionar escola:', error);
