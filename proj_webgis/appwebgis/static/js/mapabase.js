@@ -1,7 +1,9 @@
+var map;
+
 //Cria o mapa leaflet
 var coordinicio = [-15.8088136,-47.95301];
 var zoominicio = 12;
-var map = L.map('map').setView(coordinicio, zoominicio);
+map = L.map('map').setView(coordinicio, zoominicio);
 
 //Criando mapas base
 var streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{}).addTo(map);        
