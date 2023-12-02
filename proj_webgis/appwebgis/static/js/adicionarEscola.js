@@ -19,8 +19,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 const lat = event.latlng.lat;
                 const lng = event.latlng.lng;
 
-                // Exibe um novo alerta com as coordenadas
-                alert(`Coordenadas do local clicado: Latitude ${lat}, Longitude ${lng}`);
+                // Abre um formulário para preencher as demais informações
+                const nomeEscola = prompt('Digite o nome da escola:');
+
+                // Envia as coordenadas, nome e outras informações para o servidor
+                fetch('/adicionar_escola', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept':'application/json'
+                    },
+                    body: JSON.stringify({
+                        nome: nomeEscola,
+                        latitude: lat,
+                        longitude: lng,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Exibe um alerta com a resposta do servidor
+                    console.log('Data recebida:', data);
+                    alert(data.message);
+                })
+                .catch(error => {
+                    console.error('Erro ao adicionar escola:', error);
+                });
             };
 
             // Adiciona o ouvinte de evento ao mapa
@@ -28,3 +51,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
