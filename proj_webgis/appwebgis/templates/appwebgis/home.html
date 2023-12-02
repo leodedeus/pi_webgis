@@ -4,13 +4,19 @@
 <html>
 <head>
     <title>Mapa Leaflet</title>
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     
     
 </head>
 <body>
-    <div id="map" style="width: 1500px; height: 800px;"></div>
+    <div id="container">
+        <div id="map"></div>
+        <div id="buttonContainer">
+            <button id="btnAddEscola">Adicionar Escola</button>
+        </div>
+    </div>
     <script src="{% static 'js/mapabase.js' %}"></script>
 </body>
 </html>

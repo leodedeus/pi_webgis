@@ -1,0 +1,28 @@
+body {
+    margin: 10;
+    padding: 10;
+}
+
+#container {
+    display: flex;
+}
+
+#map {
+    flex: 1;
+    height: 800px;
+    flex-basis: 80%;
+}
+
+#buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: top; /* Centraliza verticalmente */
+    padding: 10px;
+    flex-basis: 20%;
+}
+
+#btnAddEscola {
+    display: block;
+    margin-bottom: 10px;
+}
