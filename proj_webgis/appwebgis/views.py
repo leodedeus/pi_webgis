@@ -42,3 +42,30 @@ def adicionar_escola(request):
 
     return JsonResponse({'error': 'Método não permitido'}, status=405)
 
+@csrf_exempt
+def pesquisar_escola(request):
+    if request.method == 'GET':
+        nome_escola = request.GET.get('nome', '')
+
+        if nome_escola:
+            try:
+                # Execute a consulta SQL para pesquisar a escola pelo nome
+                sql = "SELECT nome_escola, ST_AsGeoJSON(geom) AS coordenadas, endereco FROM camadas.feature_point_escola_publica WHERE nome_escola ILIKE %s LIMIT 1;"
+                sql = "SELECT nome_escola, ST_AsGeoJSON(ST_Transform(geom, 4326)) AS coordenadas, endereco FROM camadas.feature_point_escola_publica WHERE nome_escola ILIKE %s LIMIT 1;"
+                connection.execute(sql, [f'%{nome_escola}%'])
+                result = connection.fetchone()
+
+                if result:
+                    nome, coordenadas, endereco = result
+                    print(f'Escola encontrada - Nome: {nome}, Coordenadas: {coordenadas}, Endereço: {endereco}')
+
+                    return JsonResponse({'encontrada': True, 'escola': {'nome': nome, 'coordenadas': json.loads(coordenadas), 'endereco': endereco}})
+                else:
+                    print(f'Escola não encontrada para o nome: {nome_escola}')
+                    return JsonResponse({'encontrada': False})
+            except Exception as e:
+                print(f'Erro ao executar consulta SQL: {e}')
+                return JsonResponse({'error': f'Erro ao executar consulta SQL: {e}'}, status=500)
+
+    return JsonResponse({'error': 'Método não permitido'}, status=405)
+            

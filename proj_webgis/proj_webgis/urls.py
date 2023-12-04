@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from appwebgis.views import home
 from appwebgis.views import adicionar_escola
+from appwebgis.views import pesquisar_escola
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
-     path('adicionar_escola', adicionar_escola, name='adicionar_escola'),
+    path('adicionar_escola', adicionar_escola, name='adicionar_escola'),
+     path('pesquisar_escola', pesquisar_escola, name='pesquisar_escola'), 
 ]
