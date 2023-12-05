@@ -16,14 +16,14 @@ var lotes = L.tileLayer.wms('http://localhost:8080/geoserver/pi_webgis/wms',{
             format: 'image/png',
             transparent: true,
             //opacity: 0.7
-        })//.addTo(map)
+        });//.addTo(map)
 
 var escolas = L.tileLayer.wms('http://localhost:8080/geoserver/pi_webgis/wms',{
     layers: 'pi_webgis:feature_point_escola_publica',
     format: 'image/png',
     transparent: true,
     //opacity: 1.0
-    })//.addTo(map)
+    });//.addTo(map)
 
 //Criação de variaveis para controlar a visualização das camadas
 var basemaps = {

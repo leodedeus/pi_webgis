@@ -21,7 +21,7 @@ def adicionar_escola(request):
             latitude = data.get('latitude')
             longitude = data.get('longitude')
 
-            # Converta as coordenadas para o formato geom do PostGIS e SRID 31983
+            # Converta as coordenadas para o formato geom do PostGI
             coordenadas = f'SRID=4326;POINT({longitude} {latitude})'
 
             # Crie a consulta SQL para inserção
@@ -68,4 +68,60 @@ def pesquisar_escola(request):
                 return JsonResponse({'error': f'Erro ao executar consulta SQL: {e}'}, status=500)
 
     return JsonResponse({'error': 'Método não permitido'}, status=405)
-            
+
+# ...
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.db import connection
+import json
+
+@csrf_exempt
+def identificar_feicao(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            latitude = data.get('latitude')
+            longitude = data.get('longitude')
+
+            # Converta as coordenadas para o formato geom do PostGIS
+            coordenadas = f'SRID=4326;POINT({longitude} {latitude})'
+
+            # Use um cursor para executar a consulta SQL
+            with connection.cursor() as cursor:
+                # Crie a consulta SQL para identificação
+                sql = f"""
+                    SELECT 
+                        cod_entidade, nome_escola, cod_ra, cod_dre, endereco, cep, telefone, email,
+                        ST_AsGeoJSON(ST_Transform(geom, 4326)) AS coordenadas
+                    FROM camadas.feature_point_escola_publica
+                    WHERE ST_Intersects(ST_Transform(geom, 31983), ST_Buffer(ST_Transform(ST_GeomFromText(%s, 4326), 31983), 10));
+                """
+                
+                # Execute a consulta SQL
+                cursor.execute(sql, [coordenadas])
+
+                # Obtenha os resultados
+                feicoes = cursor.fetchall()
+
+            # Converta os resultados para um formato adequado para resposta JSON
+            feicoes_json = [
+                {
+                    'cod_entidade': cod_entidade,
+                    'nome_escola': nome_escola,
+                    'cod_ra': cod_ra,
+                    'cod_dre': cod_dre,
+                    'endereco': endereco,
+                    'cep': cep,
+                    'telefone': telefone,
+                    'email': email,
+                    'coordenadas': json.loads(coordenadas)
+                } for (
+                    cod_entidade, nome_escola, cod_ra, cod_dre, endereco, cep, telefone, email, coordenadas
+                ) in feicoes
+            ]
+
+            return JsonResponse({'feicoes': feicoes_json})
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
