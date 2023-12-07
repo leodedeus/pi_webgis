@@ -1,4 +1,4 @@
-#!/home/leodedeus/django_proj/pi_webgis/venv/bin/python
+#!/home/pedro/Documentos/pi_webgis/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
