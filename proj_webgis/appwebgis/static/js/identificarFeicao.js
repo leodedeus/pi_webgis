@@ -2,34 +2,50 @@ document.addEventListener('DOMContentLoaded', function () {
     const map = window.map;
     const escolasLayer = camadas['Escolas'];
     const lotesLayer = camadas['Lotes'];
+    let clickHandlerAdded = false;
 
-    // Adiciona um ouvinte de evento ao botão "Identificar Feição"
-    const btnIdentificarFeicao = document.getElementById('btnIdentificarFeicao');
-    btnIdentificarFeicao.addEventListener('click', function () {
-        alert('Clique no objeto desejado');
+    // Função para identificar uma feição no mapa
+    function identificarFeicao(e) {
+        const latitude = e.latlng.lat;
+        const longitude = e.latlng.lng;
 
-        // Adiciona um ouvinte de evento ao mapa para capturar cliques
-        const clickHandler = function (e) {
-            const latitude = e.latlng.lat;
-            const longitude = e.latlng.lng;
+        //mostrar as coordenadas clicadas no console
+        console.log('Coordenadas do clique:', { latitude, longitude });
 
-            // Verifica se a camada de escolas está ativada
-            if (escolasLayer && map.hasLayer(escolasLayer)) {
-                identificarEscola(latitude, longitude);
-            }
-            // Verifica se a camada de lotes está ativada
-            else if (lotesLayer && map.hasLayer(lotesLayer)) {
-                identificarLote(latitude, longitude);
-            }
+        // Verifica se a camada de escolas está ativada
+        if (escolasLayer && map.hasLayer(escolasLayer)) {
+            identificarEscola(latitude, longitude);
+        }
+        // Verifica se a camada de lotes está ativada
+        else if (lotesLayer && map.hasLayer(lotesLayer)) {
+            identificarLote(latitude, longitude);
+        }
+    }
 
-            // Remove o ouvinte de evento após um clique
-            map.off('click', clickHandler);
-        };
+    // Adiciona ou remove o ouvinte de evento com base nas camadas habilitadas
+    function updateClickHandler() {
+        const hasLayers = map.hasLayer(escolasLayer) || map.hasLayer(lotesLayer);
 
-        // Adiciona o ouvinte de evento ao mapa
-        map.on('click', clickHandler);
+        if (hasLayers && !clickHandlerAdded) {
+            map.on('click', identificarFeicao);
+            clickHandlerAdded = true;
+        } else if (!hasLayers && clickHandlerAdded) {
+            map.off('click', identificarFeicao);
+            clickHandlerAdded = false;
+        }
+    }
+
+    // Adiciona ouvinte de evento para atualizar o clique no mapa
+    map.on('layeradd layerremove', updateClickHandler);
+
+    // Remove o ouvinte de evento ao sair da página ou descarregar o mapa
+    window.addEventListener('beforeunload', function () {
+        if (clickHandlerAdded) {
+            map.off('click', identificarFeicao);
+        }
     });
 
+    // Função para identificar escola no backend
     function identificarEscola(latitude, longitude) {
         fetch('/identificar_escola/', {
             method: 'POST',
@@ -43,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Resposta do backend:', data);
+            console.log('Resposta do backend (Escola):', data);
 
             if (data.feicoes && data.feicoes.length > 0) {
                 const feicao = data.feicoes[0];
@@ -69,10 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(error => {
-            console.error('Erro ao identificar feição:', error);
+            console.error('Erro ao identificar escola:', error);
         });
     }
 
+    // Função para identificar lote no backend
     function identificarLote(latitude, longitude) {
         fetch('/identificar_lote/', {
             method: 'POST',
@@ -86,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Resposta do backend:', data);
+            console.log('Resposta do backend (Lote):', data);
 
             if (data.feicoes_lotes && data.feicoes_lotes.length > 0) {
                 const feicao = data.feicoes_lotes[0];
@@ -109,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(error => {
-            console.error('Erro ao identificar feição:', error);
+            console.error('Erro ao identificar lote:', error);
         });
     }
 });

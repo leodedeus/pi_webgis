@@ -79,89 +79,39 @@ def identificar_escola(request):
 
             # Converta as coordenadas para o formato geom do PostGIS
             coordenadas = f'SRID=4326;POINT({longitude} {latitude})'
+            print("coordenadas recebidda no backend")
 
-            # Use um cursor para executar a consulta SQL
+            # Execute a consulta SQL para identificação
+            sql = """
+                SELECT 
+                    cod_entidade, nome_escola, cod_ra, cod_dre, endereco, cep, telefone, email,
+                    ST_AsGeoJSON(ST_Transform(geom, 4326)) AS coordenadas
+                FROM camadas.feature_point_escola_publica
+                WHERE ST_Intersects(ST_Transform(geom, 31983), ST_Buffer(ST_Transform(ST_GeomFromText(%s, 4326), 31983), 10))
+            """
+            print("sql montado", sql)
+            
+            # Execute a consulta SQL
             with connection.cursor() as cursor:
-                # Crie a consulta SQL para identificação
-                sql = f"""
-                    SELECT 
-                        cod_entidade, nome_escola, cod_ra, cod_dre, endereco, cep, telefone, email,
-                        ST_AsGeoJSON(ST_Transform(geom, 4326)) AS coordenadas
-                    FROM camadas.feature_point_escola_publica
-                    WHERE ST_Intersects(ST_Transform(geom, 31983), ST_Buffer(ST_Transform(ST_GeomFromText(%s, 4326), 31983), 10));
-                """
-                
-                # Execute a consulta SQL
                 cursor.execute(sql, [coordenadas])
-
-                # Obtenha os resultados
-                feicoes = cursor.fetchall()
+                results = cursor.fetchall()
 
             # Converta os resultados para um formato adequado para resposta JSON
             feicoes_json = [
                 {
-                    'cod_entidade': cod_entidade,
-                    'nome_escola': nome_escola,
-                    'cod_ra': cod_ra,
-                    'cod_dre': cod_dre,
-                    'endereco': endereco,
-                    'cep': cep,
-                    'telefone': telefone,
-                    'email': email,
-                    'coordenadas': json.loads(coordenadas)
-                } for (
-                    cod_entidade, nome_escola, cod_ra, cod_dre, endereco, cep, telefone, email, coordenadas
-                ) in feicoes
+                    'cod_entidade': row[0],
+                    'nome_escola': row[1],
+                    'cod_ra': row[2],
+                    'cod_dre': row[3],
+                    'endereco': row[4],
+                    'cep': row[5],
+                    'telefone': row[6],
+                    'email': row[7],
+                    'coordenadas': json.loads(row[8])
+                } for row in results
             ]
 
             return JsonResponse({'feicoes': feicoes_json})
-
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
-    
-@csrf_exempt
-def identificar_lote(request):
-    try:
-        if request.method == 'POST':
-            data = json.loads(request.body)
-            latitude = data.get('latitude')
-            longitude = data.get('longitude')
-
-            # Converta as coordenadas para o formato geom do PostGIS
-            coordenadas = f'SRID=4326;POINT({longitude} {latitude})'
-
-            # Use um cursor para executar a consulta SQL
-            with connection.cursor() as cursor:
-                # Crie a consulta SQL para identificação
-                sql = f"""
-                    SELECT 
-                        ct_ciu, lt_enderec, lt_cep, lt_ra, ac_area_ct,
-                        ST_AsGeoJSON(ST_Transform(geom, 4326)) AS coordenadas
-                    FROM camadas.feature_polygon_lote_existente
-                    WHERE ST_Intersects(ST_Transform(geom, 31983), ST_Buffer(ST_Transform(ST_GeomFromText(%s, 4326), 31983), 10));
-                """
-                
-                # Execute a consulta SQL
-                cursor.execute(sql, [coordenadas])
-
-                # Obtenha os resultados
-                feicoes_lotes = cursor.fetchall()
-
-            # Converta os resultados para um formato adequado para resposta JSON
-            feicoes_lotes_json = [
-                {
-                    'ct_ciu': ct_ciu,
-                    'lt_enderec': lt_enderec,
-                    'lt_cep': lt_cep,
-                    'lt_ra': lt_ra,
-                    'ac_area_ct': ac_area_ct,
-                    'coordenadas': json.loads(coordenadas)
-                } for (
-                    ct_ciu, lt_enderec, lt_cep, lt_ra, ac_area_ct, coordenadas
-                ) in feicoes_lotes
-            ]
-
-            return JsonResponse({'feicoes': feicoes_lotes_json})
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
