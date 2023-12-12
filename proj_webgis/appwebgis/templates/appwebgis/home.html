@@ -6,24 +6,30 @@
     <title>Mapa Leaflet</title>
     <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    
-    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>    
 </head>
 <body>
-    <div id="container">
-        <div id="map"></div>
-        <div id="buttonContainer">
-            <button id="btnAddEscola">Adicionar Escola</button>
-            <!-- Adicione abaixo do botão "Adicionar Escola" -->
-            <button id="btnPesquisarEscola">Pesquisar Escola</button>
-            <!-- Adicione este botão onde desejar -->
-            <!--button id="btnIdentificarFeicao">Identificar Objeto</button-->
-        </div>
+    <div class="pagina-inicial">
+        <header class="cabecalho">
+            <div class="cabecalho__logo-container">                
+                <img class="cabecalho__logo" src="{% static '/assets/icones/location.png' %}" alt="Logo do WebGIS" />
+                <span class="cabecalho__texto">WebGIS</span>
+                <div id="buttonContainer">
+                    <button id="btnAddEscola">Adicionar Escola</button>
+                    <button id="btnPesquisarEscola">Pesquisar Escola</button>
+                    <button id="btnIdentificarFeicao">Identificar Objeto</button>
+                </div> 
+            </div>                       
+        </header>
     </div>
+    <div id="map"></div>
     <script src="{% static 'js/mapabase.js' %}"></script>
     <script src="{% static 'js/identificarFeicao.js' %}"></script>
     <script src="{% static 'js/adicionarEscola.js' %}"></script>
     <script src="{% static 'js/pesquisarEscola.js' %}"></script>
+
+    <footer class="rodape">        
+        <p class="rodape__texto">Projeto Integrador III - 2/2023 - WebGIS</p>
+    </footer>
 </body>
 </html>

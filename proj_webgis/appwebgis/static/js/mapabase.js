@@ -25,6 +25,13 @@ var escolas = L.tileLayer.wms('http://192.168.0.46:8080/geoserver/pi_webgis/wms'
     //opacity: 1.0
     });//.addTo(map)
 
+var ras = L.tileLayer.wms('http://192.168.0.46:8080/geoserver/pi_webgis/wms',{
+    layers: 'pi_webgis:feature_polygon_regioes_administrativas',
+    format: 'image/png',
+    transparent: true,
+    //opacity: 1.0
+    });//.addTo(map)
+
 //Criação de variaveis para controlar a visualização das camadas
 var basemaps = {
     'Base': streetmap,
@@ -34,7 +41,8 @@ var basemaps = {
 
 var camadas = {
     'Escolas': escolas,
-    'Lotes': lotes
+    'Lotes': lotes,
+    'Regiões Administrativas': ras
     }
 
 L.control.layers(basemaps,camadas).addTo(map);
